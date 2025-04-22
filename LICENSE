@@ -186,7 +186,11 @@
       same "printed page" as the copyright notice for easier
       identification within third-party archives.
 
-   Copyright [yyyy] [name of copyright owner]
+// Project: BreatheSafe - Wildfire smoke and air quality risk notifier
+// Description: A tool to alert users when wildfire smoke and PM2.5 levels indicate they should close their windows
+// Author: WANG YI
+
+Copyright 2025 WANG YI
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
