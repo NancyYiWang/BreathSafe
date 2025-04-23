@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, render_template
 import xarray as xr
 from geopy.geocoders import Nominatim
 import certifi
+import numpy as np
+import papermill as pm
+import os
 
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -21,6 +24,13 @@ def get_aqhi_from_postal_code():
     if not postal_code:
         return jsonify({"error": "Missing postal code"}), 400
 
+    notebook_path = os.path.join(os.getcwd(), "AQHI_DATA.ipynb")
+    output_path = os.path.join(os.getcwd(), "AQHI_DATA_output.ipynb")
+    try:
+        pm.execute_notebook(notebook_path, output_path)
+    except Exception as e:
+        return jsonify({'error': f'Notebook execution failed: {str(e)}'}), 500
+    
     location = nomi.geocode(f"{postal_code}, Canada")
     if location is None:
         return jsonify({"error": "Invalid postal code"}), 404
