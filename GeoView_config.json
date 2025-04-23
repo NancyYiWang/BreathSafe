@@ -1,0 +1,32 @@
+{
+    "map": {
+      "mapId": "map1",
+      "interaction": "dynamic",
+      "viewSettings": {
+        "projection": 3978,
+        "zoom": 4,
+        "center": [-100, 55]
+      },
+      "basemapOptions": {
+        "basemapId": "transport",
+        "shaded": false,
+        "labeled": true
+      },
+      "listOfGeoviewLayerConfig": [
+        {
+          "geoviewLayerId": "aqhiForecast",
+          "geoviewLayerName": "AQHI Forecast",
+          "geoviewLayerType": "GeoJSON",
+          "metadataAccessPath": "./aqhi_forecast.geojson",
+          "listOfLayerEntryConfig": []
+        }
+      ]
+    },
+    "components": ["overview-map"],
+    "footerBar": {
+      "tabs": {
+        "core": ["legend", "layers", "details", "data-table"]
+      }
+    },
+    "theme": "geo.ca"
+  }
