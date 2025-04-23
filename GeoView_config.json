@@ -4,8 +4,15 @@
       "interaction": "dynamic",
       "viewSettings": {
         "projection": 3978,
-        "zoom": 4,
-        "center": [-100, 55]
+        "initialView": {
+          "zoomAndCenter": [
+            4,
+            [-100, 55]
+          ]
+        },
+        "enableRotation": false,
+        "minZoom": 2,
+        "maxZoom": 16
       },
       "basemapOptions": {
         "basemapId": "transport",
@@ -15,18 +22,86 @@
       "listOfGeoviewLayerConfig": [
         {
           "geoviewLayerId": "aqhiForecast",
-          "geoviewLayerName": "AQHI Forecast",
+          "geoviewLayerName": "AQHI Forecast (36 h)",
           "geoviewLayerType": "GeoJSON",
-          "metadataAccessPath": "./aqhi_forecast.geojson",
-          "listOfLayerEntryConfig": []
+          "isTimeAware": true,
+          "timeSettings": {
+            "timeField": "forecast_time",
+            "timeFormat": "YYYY-MM-DDTHH:mm:ss[Z]"
+          },
+          "listOfLayerEntryConfig": [
+            {
+              "layerId": "aqhi_forecast_points",
+              "layerName": "AQHI Points",
+              "entryType": "vector",
+              "source": {
+                "type": "geojson",
+                "dataAccessPath": "./aqhi_forecast.geojson",
+                "featureInfo": {
+                  "queryable": true,
+                  "outfields": [
+                    { "name": "location",       "alias": "Location" },
+                    { "name": "location_id",    "alias": "Location ID" },
+                    { "name": "aqhi",           "alias": "Air Quality Index" },
+                    { "name": "forecast_time",  "alias": "Forecast Time" },
+                    { "name": "forecast_issue", "alias": "Issue Time" }
+                  ]
+                }
+              },
+              "style": {
+                "type": "circle",
+                "radius": 6,
+                "color": [
+                  "match", ["get", "aqhi"],
+                  0, "#00cc66",
+                  1, "#00cc66",
+                  2, "#66cc66",
+                  3, "#cccc00",
+                  4, "#ffcc00",
+                  5, "#ff9900",
+                  6, "#ff6600",
+                  7, "#ff3300",
+                  8, "#cc0000",
+                  9, "#990000",
+                  10, "#660000",
+                  "#999999"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
-    "components": ["overview-map"],
+    "components": [
+      "overview-map",
+      "time-slider"
+    ],
+    "corePackages": [
+      "time-slider"
+    ],
+    "corePackagesConfig": [
+      {
+        "time-slider": {
+          "sliders": [
+            {
+              "layerId": "aqhiForecast/aqhi_forecast_points",
+              "timeField": "forecast_time",
+              "timeFormat": "YYYY-MM-DDTHH:mm:ss[Z]"
+            }
+          ]
+        }
+      }
+    ],
     "footerBar": {
       "tabs": {
-        "core": ["legend", "layers", "details", "data-table"]
+        "core": [
+          "legend",
+          "layers",
+          "time-slider",
+          "data-table"
+        ]
       }
     },
     "theme": "geo.ca"
   }
+  
