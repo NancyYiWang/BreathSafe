@@ -1,0 +1,11 @@
+Flask
+requests
+pandas
+numpy
+geopandas
+xarray
+rasterio
+shapely
+scipy
+netCDF4
+papermill
