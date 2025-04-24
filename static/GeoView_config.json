@@ -1,0 +1,35 @@
+{
+  "map": {
+    "mapId": "map1",
+    "viewSettings": {
+      "projection": 3978,
+      "initialView": {
+        "zoomAndCenter": [4, [-100, 55]]
+      }
+    },
+    "basemapOptions": {
+      "basemapId": "transport",
+      "labeled": true
+    },
+    "listOfGeoviewLayerConfig": [
+      {
+        "geoviewLayerId": "aqhi_raster",
+        "geoviewLayerName": "Interpolated AQHI",
+        "geoviewLayerType": "GeoTIFF",
+        "listOfLayerEntryConfig": [
+          {
+            "layerId": "raster_layer",
+            "layerName": "AQHI TIFF Layer",
+            "entryType": "raster",
+            "source": {
+              "type": "raster",
+              "dataAccessPath": "./data/aqhi_grid.tif"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "components": ["overview-map", "legend", "layers"],
+  "theme": "geo.ca"
+}

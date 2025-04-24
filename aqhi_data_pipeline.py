@@ -16,8 +16,6 @@ def fetch_and_process_aqhi_data(output_nc_path="data/aqhi_grid.nc", grid_res=200
     response = requests.get(url)
     data = response.json()
 
-    print("✅ AQHI data loaded with count:", len(data.get("features", [])))
-
     features = []
 
     for item in data.get("features", []):
@@ -45,9 +43,6 @@ def fetch_and_process_aqhi_data(output_nc_path="data/aqhi_grid.nc", grid_res=200
 
     gdf = gdf[gdf.geometry.notnull() & gdf["aqhi"].notnull()]
 
-    print("✅ gdf loaded with shape:", gdf.shape)
-    print(gdf.head())
-
     gdf = gdf.to_crs(epsg=3978)
 
     coords = np.array([[pt.x, pt.y] for pt in gdf.geometry])
@@ -62,20 +57,15 @@ def fetch_and_process_aqhi_data(output_nc_path="data/aqhi_grid.nc", grid_res=200
     ymin1 = int(ymin)
     xmax1 = int(xmax)
     ymax1 = int(ymax)
-    print(xmin1, ymin1, xmax1, ymax1)
 
     x_steps = int((xmax1 - xmin1) // grid_res)
     y_steps = int((ymax1 - ymin1) // grid_res)
 
     x_coords = np.linspace(xmin, xmax, x_steps)
     y_coords = np.linspace(ymin, ymax, y_steps)
-    
-    print(xmin, ymin, xmax, ymax)
 
     xx, yy = np.meshgrid(x_coords, y_coords)
     grid_points = np.c_[xx.ravel(), yy.ravel()]
-
-    print(xx, yy)
 
     def idw_interpolation(xy_known, values_known, xy_grid, k=10, power=2):
         tree = cKDTree(xy_known)

@@ -9,3 +9,4 @@ shapely
 scipy
 netCDF4
 papermill
+rioxarray
