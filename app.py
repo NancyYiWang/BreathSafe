@@ -11,7 +11,6 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 app = Flask(__name__)
 
-aqhi_grid = xr.open_dataset("data/aqhi_grid.nc")["aqhi"]
 nomi = Nominatim(user_agent="breathe_safe_app", ssl_context=ssl.create_default_context(cafile=certifi.where()))
 
 @app.route("/")
@@ -32,7 +31,7 @@ def get_aqhi_from_postal_code():
         return jsonify({'error': f'Notebook execution failed: {str(e)}'}), 500
     
     try:
-        aqhi_grid = xr.open_dataset("data/aqhi_grid.nc")["aqhi"]
+        aqhi_grid = xr.open_dataset("data/aqhi_grid.nc", engine="netcdf4")["aqhi"]
     except Exception as e:
         return jsonify({"error": f"Failed to reload AQHI grid: {str(e)}"}), 500
     
