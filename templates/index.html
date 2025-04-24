@@ -67,7 +67,6 @@
 
     <div id="aqhiResult" class="aqhi-result" style="display: none;"></div>
 
-    <div class="push-status" id="pushStatus">Push alerts: <strong>Not enabled</strong></div>
   </main>
 
   <script>
@@ -103,10 +102,12 @@
         console.error(error);
       }
     }
-
-    // Simulate push registration (placeholder)
-    document.getElementById("pushStatus").innerHTML =
-      "Push alerts: <strong>Subscribed</strong> (simulated)";
+    document.getElementById("locationInput").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      fetchAQHI();
+    }
+  });
+    
   </script>
 </body>
 </html>
