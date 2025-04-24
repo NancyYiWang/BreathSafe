@@ -31,6 +31,11 @@ def get_aqhi_from_postal_code():
     except Exception as e:
         return jsonify({'error': f'Notebook execution failed: {str(e)}'}), 500
     
+    try:
+        aqhi_grid = xr.open_dataset("data/aqhi_grid.nc")["aqhi"]
+    except Exception as e:
+        return jsonify({"error": f"Failed to reload AQHI grid: {str(e)}"}), 500
+    
     location = nomi.geocode(f"{postal_code}, Canada")
     if location is None:
         return jsonify({"error": "Invalid postal code"}), 404
