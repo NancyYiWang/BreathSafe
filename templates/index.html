@@ -52,8 +52,8 @@
       color: #666;
     }
   </style>
-  <script src="https://geoview.dev/geo.ca/latest/GeoView.js" defer></script>
-  <link href="https://geoview.dev/geo.ca/latest/GeoView.css" rel="stylesheet" />
+  <script src="{{ url_for('static', filename='geoview/bundle.js') }}" defer></script>
+  <link href="{{ url_for('static', filename='geoview/style.css') }}" rel="stylesheet" />
 </head>
 <body>
   <header>
@@ -112,10 +112,36 @@
     }
   });
   window.addEventListener('DOMContentLoaded', async () => {
-  const response = await fetch('static/GeoView_config.json');
-  const config = await response.json();
-  const viewer = new GeoView.MapViewer('map1', config);
-});
+    // 等待 geoview 被定义
+    const waitForGeoView = () => new Promise((resolve, reject) => {
+      const maxWait = 3000;
+      const interval = 50;
+      let waited = 0;
+
+      const check = () => {
+        if (window.geoview && window.geoview.MapViewer) {
+          resolve();
+        } else if (waited > maxWait) {
+          reject(new Error("GeoView failed to load."));
+        } else {
+          waited += interval;
+          setTimeout(check, interval);
+        }
+      };
+
+      check();
+    });
+
+    try {
+      await waitForGeoView();
+
+      const response = await fetch('/static/GeoView_config.json');
+      const config = await response.json();
+      const viewer = new window.geoview.MapViewer('map1', config);
+    } catch (e) {
+      console.error("GeoView init failed:", e);
+    }
+  });
   </script>
 </body>
 </html>

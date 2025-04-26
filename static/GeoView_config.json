@@ -1,35 +1,43 @@
 {
   "map": {
     "mapId": "map1",
+    "interaction": {
+      "dragPan": true,
+      "mouseWheelZoom": true
+    },
     "viewSettings": {
-      "projection": 3978,
-      "initialView": {
-        "zoomAndCenter": [4, [-100, 55]]
-      }
-    },
-    "basemapOptions": {
-      "basemapId": "transport",
-      "labeled": true
-    },
-    "listOfGeoviewLayerConfig": [
-      {
-        "geoviewLayerId": "aqhi_raster",
-        "geoviewLayerName": "Interpolated AQHI",
-        "geoviewLayerType": "GeoTIFF",
-        "listOfLayerEntryConfig": [
-          {
-            "layerId": "raster_layer",
-            "layerName": "AQHI TIFF Layer",
-            "entryType": "raster",
-            "source": {
-              "type": "raster",
-              "dataAccessPath": "./data/aqhi_grid.tif"
-            }
-          }
-        ]
-      }
-    ]
+      "zoom": 4,
+      "center": [-106.3468, 56.1304],
+      "projection": "EPSG:4326"
+    }
   },
   "components": ["overview-map", "legend", "layers"],
-  "theme": "geo.ca"
+  "layers": {
+    "aqhi_points": {
+      "source": {
+        "type": "geojson",
+        "data": "./datasets/aqhi_grid_latlon.geojson"
+      },
+      "layerType": "vector",
+      "style": {
+        "radius": 5,
+        "fillColor": [
+          "interpolate",
+          ["linear"],
+          ["get", "aqhi"],
+          1, "#1a9850",
+          3, "#fee08b",
+          5, "#fc8d59",
+          7, "#d73027",
+          10, "#a50026"
+        ],
+        "strokeColor": "#333333",
+        "strokeWidth": 0.5
+      },
+      "visible": true,
+      "opacity": 1,
+      "zIndex": 100,
+      "title": "AQHI Points"
+    }
+  }
 }
